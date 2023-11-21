@@ -18,3 +18,5 @@ buildNumber.properties
 /ang-oidc-client/.vscode/
 /ang-oidc-client/.angular/
 /.idea/
+/chatapp/.angular/
+/chatapp/.vscode/
