@@ -15,3 +15,6 @@ buildNumber.properties
 .project
 # JDT-specific (Eclipse Java Development Tools)
 .classpath
+/ang-oidc-client/.vscode/
+/ang-oidc-client/.angular/
+/.idea/
