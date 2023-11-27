@@ -21,3 +21,4 @@ buildNumber.properties
 /chatapp/.angular/
 /chatapp/.vscode/
 /stream-chat/.vscode/
+/stream-chat/.angular/
