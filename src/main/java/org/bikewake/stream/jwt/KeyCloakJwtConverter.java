@@ -18,10 +18,10 @@ public class KeyCloakJwtConverter implements Converter<Jwt, KeyCloakJwt> {
         Collection<GrantedAuthority> authorities = extractAuthorities(jwt);
 
         // You can also map other information from the Jwt to the custom token
-        var customJwt = new KeyCloakJwt(jwt, authorities);
-        customJwt.setFirstname(jwt.getClaimAsString("given_name"));
-        customJwt.setLastname(jwt.getClaimAsString("family_name"));
-        return customJwt;
+        var keyCloakJwt = new KeyCloakJwt(jwt, authorities);
+        keyCloakJwt.setFirstname(jwt.getClaimAsString("given_name"));
+        keyCloakJwt.setLastname(jwt.getClaimAsString("family_name"));
+        return keyCloakJwt;
     }
 
     private Collection<GrantedAuthority> extractAuthorities(Jwt jwt) {
