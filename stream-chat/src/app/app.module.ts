@@ -5,6 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { keyCloakConfig } from './environment';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 function initializeKeycloak(keycloak: KeycloakService) {
   return () =>
@@ -24,7 +25,8 @@ function initializeKeycloak(keycloak: KeycloakService) {
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    KeycloakAngularModule
+    KeycloakAngularModule,
+    BrowserAnimationsModule
    ],
   providers: [
     {
