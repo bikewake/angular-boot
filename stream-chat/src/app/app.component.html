@@ -1,39 +1,51 @@
-<h1>Keycloak Angular Example</h1>
+  <mat-toolbar color="primary">
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item routerLink="/hike" aria-label="Hike" >Hike</button>
+      <button mat-menu-item routerLink="/bike" aria-label="Bike" >Bike</button>
+      <button mat-menu-item routerLink="/wake" aria-label="Wake" >Wake</button>
+    </mat-menu>
+    <span>Stream Chat</span>
+    <span class="navigator-spacer"></span>
+    <button mat-icon-button  routerLink="/bike" aria-label="Bike">
+      <mat-icon>favorite</mat-icon>
+    </button>
+    <button mat-icon-button *ngIf="isLoggedIn" (click)="logout()" aria-label="Logout">
+      <mat-icon>logout</mat-icon>
+    </button>
+    <button mat-icon-button *ngIf="!isLoggedIn" (click)="login()" aria-label="Login">
+      <mat-icon>login</mat-icon>
+    </button>
+  </mat-toolbar>
 
-<button *ngIf="isLoggedIn" type="button" (click)="logout()">Log out</button>
-<button *ngIf="!isLoggedIn" type="button" (click)="login()">Log in</button>
+  <ng-container *ngIf="userProfile">
+  <mat-grid-list cols="2" rowHeight="8:1">
+    <mat-grid-tile>
+      <table>
+      <tr>
+        <th scope="row">User:</th>
+        <td>
+          <span *ngIf="userProfile.firstName"> {{ userProfile.firstName }}</span>
+          <span *ngIf="userProfile.lastName"> {{ userProfile.lastName }}</span>
+        </td>
+      </tr>
+      </table>
+    </mat-grid-tile>
+    <mat-grid-tile>
+      <table>
+        <tr>
+          <th scope="row">E-mail:</th>
+          <td>
+            <span *ngIf="userProfile.email"> {{ userProfile.email }}</span>
+          </td>
+        </tr>
+      </table>
+    </mat-grid-tile>
+  </mat-grid-list>
+  </ng-container>
 
-<ng-container *ngIf="userProfile">
-  <h2>User information</h2>
-  <table>
-    <tr *ngIf="userProfile.username">
-      <th scope="row">Username</th>
-      <td>{{ userProfile.username }}</td>
-    </tr>
-    <tr *ngIf="userProfile.firstName">
-      <th scope="row">First name</th>
-      <td>{{ userProfile.firstName }}</td>
-    </tr>
-    <tr *ngIf="userProfile.lastName">
-      <th scope="row">First name</th>
-      <td>{{ userProfile.lastName }}</td>
-    </tr>
-    <tr *ngIf="userProfile.email">
-      <th scope="row">E-mail</th>
-      <td>{{ userProfile.email }}</td>
-    </tr>
-    <tr>
-      <th scope="row">E-mail verified</th>
-      <td>{{ userProfile.emailVerified ? 'Yes' : 'No' }}</td>
-    </tr>
-  </table>
-</ng-container>
-
-<ul>
-  <li><a class="active" href="#hike" routerLink="/hike">Hike</a></li>
-  <li><a href="#bike" routerLink="/bike">Bike</a></li>
-  <li><a href="#wake" routerLink="/wake">Wake</a></li>
-</ul>
 
 <div style="text-align: center; font-weight: bolder; font-size: 50px">
   <router-outlet></router-outlet>
