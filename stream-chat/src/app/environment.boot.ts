@@ -5,3 +5,7 @@ export const keyCloakConfig = {
         url: 'https://buben.bikewake.org/',
         clientId: 'angular-boot'
 }
+
+export const server = {
+        url: '/'
+}

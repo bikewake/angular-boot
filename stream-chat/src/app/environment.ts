@@ -5,3 +5,7 @@ export const keyCloakConfig = {
         url: 'https://buben.bikewake.org/',
         clientId: 'angular-local'
 }
+
+export const server = {
+        url: 'http://localhost:8080/'
+}

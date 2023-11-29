@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
+import { server } from '../../environment';
 
 @Component({
   selector: 'app-bike',
@@ -15,7 +16,7 @@ export class BikeComponent {
   constructor(private httpClient: HttpClient) { }
 
   getHelloText() {
-    this.httpClient.get<{ message: string }>('http://localhost:8080/hello').subscribe(result => {
+    this.httpClient.get<{ message: string }>(server.url + 'hello').subscribe(result => {
       this.helloText = result.message;
     });
   }
