@@ -4,15 +4,12 @@ import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { keyCloakConfig } from './environment';
 
 function initializeKeycloak(keycloak: KeycloakService) {
   return () =>
     keycloak.init({
-      config: {
-        realm: 'chat',
-        url: 'https://buben.bikewake.org/',
-        clientId: 'angular-local'
-      },
+      config: keyCloakConfig,
       initOptions: {
         onLoad: 'check-sso',
         silentCheckSsoRedirectUri:
