@@ -1,0 +1,12 @@
+<ul>
+  <li *ngFor="let item of listItems">
+    {{ item.title }}
+  </li>
+</ul>
+
+    <mat-form-field appearance="outline" (keyup.enter)="getHelloText()">
+      <input matInput >
+      <mat-icon matSuffix (click)="getHelloText()" >send</mat-icon>
+    </mat-form-field>
+
+

@@ -25,30 +25,23 @@
     <mat-grid-tile>
       <table>
       <tr>
-        <th scope="row">User:</th>
-        <td>
-          <span *ngIf="userProfile.firstName"> {{ userProfile.firstName }}</span>
-          <span *ngIf="userProfile.lastName"> {{ userProfile.lastName }}</span>
-        </td>
+        <th scope="row"><span *ngIf="userProfile.firstName"> {{ userProfile.firstName }}</span>
+          <span *ngIf="userProfile.lastName"> {{ userProfile.lastName }}</span></th>
       </tr>
       </table>
     </mat-grid-tile>
     <mat-grid-tile>
       <table>
         <tr>
-          <th scope="row">E-mail:</th>
-          <td>
-            <span *ngIf="userProfile.email"> {{ userProfile.email }}</span>
-          </td>
+          <th scope="row"><span *ngIf="userProfile.email"> {{ userProfile.email }}</span></th>
         </tr>
       </table>
     </mat-grid-tile>
+
   </mat-grid-list>
+    <router-outlet></router-outlet>
   </ng-container>
 
 
-<div style="text-align: center; font-weight: bolder; font-size: 50px">
-  <router-outlet></router-outlet>
-</div>
 
 
