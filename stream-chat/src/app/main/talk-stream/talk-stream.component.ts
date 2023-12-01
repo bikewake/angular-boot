@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { server } from '../../environment';
@@ -19,8 +19,10 @@ export class PostMessage {
 export interface MessageData {
     sender: string;
     message: string;
-    timeStamp: number;
+    timeStamp: any;
 }
+
+
 
 @Component({
   selector: 'app-talk-stream',
@@ -32,8 +34,9 @@ export interface MessageData {
 export class TalkStreamComponent  implements OnInit {
 
   chatMessage: PostMessage = new PostMessage("");
-
-  messageList: Array<MessageData> = []
+  messageList: Array<MessageData> = [];
+  messageSize: number = 0;
+  @ViewChild('scrollFrame', { static: true }) scrollFrameRef!: ElementRef;
 
   constructor(private httpClient: HttpClient,
               protected readonly keycloak: KeycloakService
@@ -45,11 +48,31 @@ export class TalkStreamComponent  implements OnInit {
       (messageData: MessageData) => {
         if(messageData.message) {
           console.log('Message received: ' + messageData.message);
+          messageData.timeStamp = new Date(messageData.timeStamp);
           this.messageList.push(messageData);
+
         }
       }
     );
   }
+
+  ngAfterViewChecked() {
+      // After the view is checked, scroll to the bottom
+      if(this.messageList.length > this.messageSize) {
+        this.messageSize = this.messageList.length;
+        this.scrollToBottom();
+      }
+
+  }
+
+  scrollToBottom() {
+      // Scroll to the bottom of the message area
+      if (this.scrollFrameRef) {
+        const scrollFrame = this.scrollFrameRef.nativeElement;
+        scrollFrame.scrollTop = scrollFrame.scrollHeight;
+      }
+  }
+
 
   sendMessage() {
       const headers = { 'Content-Type': 'application/json' };

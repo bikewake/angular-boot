@@ -30,4 +30,12 @@ small.timestamp {
   justify-content: center;
 }
 
+.messageArea {
+  display: flex;
+  align-items: left;
+  overflow-y: auto;
+  height: 70vh;
+  justify-content: left;
+}
+
 
