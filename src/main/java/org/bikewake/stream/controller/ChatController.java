@@ -13,9 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.codec.ServerSentEvent;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.authentication.event.AuthenticationSuccessEvent;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.HtmlUtils;
 import reactor.core.publisher.Flux;
@@ -31,8 +29,6 @@ import reactor.core.publisher.Sinks;
 public class ChatController {
     private static final Logger logger = LoggerFactory.getLogger(ChatController.class);
 
-    private final static String USER_NAME_ATTRIBUTE = "name";
-    private final static String USER_EMAIL_ATTRIBUTE = "email";
     private final static Long NUMBER_OF_DATABASE_RECORDS = 42L;
     private final StreamChatRepository chatRepository;
     private final Sinks.Many<ChatMessage> chatSink;
@@ -44,6 +40,7 @@ public class ChatController {
     }
 
     @GetMapping(path = "/sse-chat", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    @PreAuthorize("hasAuthority('ROLE_ang-role')")
     public Flux<ServerSentEvent<ChatMessage>> chatMessages() {
         return chatSink.asFlux().map(message -> ServerSentEvent.builder(message).build());
     }

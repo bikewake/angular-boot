@@ -1,14 +1,21 @@
-<ul>
-  <li *ngFor="let item of listItems">
-    {{ item.title }}
-  </li>
-</ul>
 
-
-    <mat-form-field appearance="outline" (keyup.enter)="getHelloText()">
-      <input matInput >
+<div class="box">
+  <ul>
+    <li class="message" *ngFor="let item of messageList">
+      <span class="sender">{{ item.sender }}:</span>{{ item.message }}<small class="timestamp">{{ item.timeStamp }}</small>
+    </li>
+  </ul>
+</div>
+<div class="box">
+  <mat-form-field appearance="outline" (keyup.enter)="sendMessage()">
+      <input matInput [(ngModel)]="chatMessage.message" >
       <mat-icon matSuffix (click)="sendMessage()" >send</mat-icon>
-    </mat-form-field>
+  </mat-form-field>
+</div>
+
+
+
+
 
 
 

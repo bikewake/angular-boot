@@ -24,4 +24,10 @@ small.timestamp {
     text-align: right;
 }
 
+.box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 
