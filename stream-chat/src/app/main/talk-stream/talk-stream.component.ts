@@ -21,11 +21,22 @@ export class TalkStreamComponent {
         { title: 'item 2' },
         { title: 'item 3' }
     ]
+
   constructor(private httpClient: HttpClient) { }
 
     getHelloText() {
       this.httpClient.get<{ message: string }>(server.url + 'hello').subscribe(result => {
         this.listItems.push({title: result.message});
+      });
+    }
+
+    sendMessage() {
+
+      const headers = { 'Content-Type': 'application/json' };
+      const body = { message: "POST Request Example" };
+
+      this.httpClient.post<{ message: string }>(server.url + 'api/chat', body, {headers}).subscribe(result => {
+        this.listItems.push({title: 'push done'});
       });
     }
 

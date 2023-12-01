@@ -21,6 +21,7 @@ public class KeyCloakJwtConverter implements Converter<Jwt, KeyCloakJwt> {
         var keyCloakJwt = new KeyCloakJwt(jwt, authorities);
         keyCloakJwt.setFirstname(jwt.getClaimAsString("given_name"));
         keyCloakJwt.setLastname(jwt.getClaimAsString("family_name"));
+        keyCloakJwt.setEmail(jwt.getClaimAsString("email"));
         return keyCloakJwt;
     }
 
