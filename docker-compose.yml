@@ -1,0 +1,15 @@
+version: '3.7'
+services:
+  chat:
+    image: bikewake/stream-chat:0.0.1
+    restart: unless-stopped
+    hostname: "stream-chat"
+    container_name: stream-chat
+    volumes:
+      - ./config:/app/config
+    environment:
+      - "PORT=19090"
+    ports:
+      - "19090:19090"
+
+
