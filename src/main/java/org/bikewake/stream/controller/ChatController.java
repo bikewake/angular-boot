@@ -24,7 +24,7 @@ import reactor.core.publisher.Sinks;
 @CrossOrigin(
         origins = "http://localhost:4200",
         allowedHeaders = "*",
-        methods = { RequestMethod.GET, RequestMethod.POST  }
+        methods = {RequestMethod.GET, RequestMethod.POST}
 )
 public class ChatController {
     private static final Logger logger = LoggerFactory.getLogger(ChatController.class);
@@ -39,6 +39,12 @@ public class ChatController {
         this.chatSink = chatSink;
     }
 
+    @RequestMapping(path = "/all", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('ROLE_ang-role')")
+    public Flux<ChatMessage> all() {
+        return chatRepository.findAll();
+    }
+
     @GetMapping(path = "/sse-chat", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     @PreAuthorize("hasAuthority('ROLE_ang-role')")
     public Flux<ServerSentEvent<ChatMessage>> chatMessages() {
@@ -46,9 +52,9 @@ public class ChatController {
     }
 
 
-    @PostMapping(value = "/chat", consumes=MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/chat", consumes = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('ROLE_ang-role')")
-    public void postMessage(@RequestBody final  PostMessage message) {
+    public void postMessage(@RequestBody final PostMessage message) {
 
         var jwt = (KeyCloakJwt) SecurityContextHolder.getContext().getAuthentication();
 
@@ -58,7 +64,7 @@ public class ChatController {
         userMessage.setTimeStamp(System.currentTimeMillis());
 
         ChatMessage dbMessage = new ChatMessage();
-        dbMessage.setSender(jwt.getEmail());
+        dbMessage.setSender(jwt.getHumanName());
         dbMessage.setMessage(message.getMessage());
         dbMessage.setTimeStamp(userMessage.getTimeStamp());
 

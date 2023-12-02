@@ -22,8 +22,6 @@ export interface MessageData {
     timeStamp: any;
 }
 
-
-
 @Component({
   selector: 'app-talk-stream',
   standalone: true,
@@ -43,17 +41,22 @@ export class TalkStreamComponent  implements OnInit {
   ) { }
 
   public async ngOnInit() {
+
+    this.httpClient.get<Array<MessageData>>(server.url + 'api/all').subscribe(
+       ( messagesData ) => messagesData.forEach((messageData:MessageData) => this.pushConvertMessage(messageData))
+    );
+
     const keyToken = this.keycloak.getToken();
     this.createEventSource(await keyToken).subscribe(
-      (messageData: MessageData) => {
-        if(messageData.message) {
-          console.log('Message received: ' + messageData.message);
-          messageData.timeStamp = new Date(messageData.timeStamp);
-          this.messageList.push(messageData);
-
-        }
-      }
+      (messageData: MessageData) => this.pushConvertMessage(messageData)
     );
+  }
+
+  pushConvertMessage(messageData: MessageData) {
+      if(messageData.message) {
+            messageData.timeStamp = new Date(messageData.timeStamp);
+            this.messageList.push(messageData);
+      }
   }
 
   ngAfterViewChecked() {
@@ -62,7 +65,6 @@ export class TalkStreamComponent  implements OnInit {
         this.messageSize = this.messageList.length;
         this.scrollToBottom();
       }
-
   }
 
   scrollToBottom() {
@@ -73,7 +75,6 @@ export class TalkStreamComponent  implements OnInit {
       }
   }
 
-
   sendMessage() {
       const headers = { 'Content-Type': 'application/json' };
       const body = { message: this.chatMessage.message };
@@ -83,10 +84,9 @@ export class TalkStreamComponent  implements OnInit {
 
   createEventSource(keyToken: string): Observable<MessageData> {
 
-      console.log('Token: ' + keyToken);
       const keyHeader = { 'Authorization': 'Bearer ' + keyToken};
       const eventSource = new EventSourcePolyfill(server.url + 'api/sse-chat',
-      {headers: { Authorization: 'Bearer ' + keyToken}} );
+        {headers: { Authorization: 'Bearer ' + keyToken}} );
 
       return new Observable(observer => {
           eventSource.onmessage = event => {
