@@ -19,4 +19,4 @@ ENV PORT 19090
 EXPOSE $PORT
 
 # Specify the command to run on container startup
-CMD ["java", "-jar", "app.jar", "--spring.config.location=classpath:/,file:/app/config/", "--spring.profiles.active=chat"]
+CMD ["java", "-jar", "app.jar", "--spring.config.location=classpath:/,file:/app/config/", "--spring.profiles.active=stream"]
