@@ -41,15 +41,21 @@ export class TalkStreamComponent  implements OnInit {
   ) { }
 
   public async ngOnInit() {
+    this.startStream();
+  }
 
-    this.httpClient.get<Array<MessageData>>(server.url + 'api/all').subscribe(
-       ( messagesData ) => messagesData.forEach((messageData:MessageData) => this.pushConvertMessage(messageData))
-    );
+  startStream() {
+     this.messageList = [];
+     this.httpClient.get<Array<MessageData>>(server.url + 'api/all').subscribe(
+         ( messagesData ) => messagesData.forEach((messageData:MessageData) => this.pushConvertMessage(messageData))
+     );
 
-    const keyToken = this.keycloak.getToken();
-    this.createEventSource(await keyToken).subscribe(
-      (messageData: MessageData) => this.pushConvertMessage(messageData)
-    );
+     const keyTokenPromise = this.keycloak.getToken();
+     keyTokenPromise.then( keyToken =>
+       this.createEventSource(keyToken).subscribe(
+         (messageData: MessageData) => this.pushConvertMessage(messageData)
+       )
+     );
   }
 
   pushConvertMessage(messageData: MessageData) {
@@ -88,11 +94,17 @@ export class TalkStreamComponent  implements OnInit {
       const eventSource = new EventSourcePolyfill(server.url + 'api/sse-chat',
         {headers: { Authorization: 'Bearer ' + keyToken}} );
 
+      eventSource.onerror = (error: Event) => {
+                    // Handle errors and reopen the connection
+        console.error('Error:', error);
+        this.startStream(); // Reopen the connection
+      };
+
       return new Observable(observer => {
           eventSource.onmessage = event => {
             const messageData: MessageData = JSON.parse(event.data);
             observer.next(messageData);
-        };
+          };
       });
    }
 }
