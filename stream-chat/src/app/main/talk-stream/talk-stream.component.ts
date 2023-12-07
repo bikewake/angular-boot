@@ -97,7 +97,7 @@ export class TalkStreamComponent  implements OnInit {
       eventSource.onerror = (error: Event) => {
                     // Handle errors and reopen the connection
         console.error('Error:', error);
-        this.startStream(); // Reopen the connection
+//        this.startStream(); // Reopen the connection
       };
 
       return new Observable(observer => {

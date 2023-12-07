@@ -1,4 +1,4 @@
-import { APP_INITIALIZER, NgModule, isDevMode } from '@angular/core';
+import { APP_INITIALIZER, NgModule, isDevMode, ErrorHandler } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
 import { HttpClientModule } from '@angular/common/http';
@@ -12,6 +12,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatMenuModule } from '@angular/material/menu';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import { MatDividerModule } from '@angular/material/divider';
+import { ErrorLogService } from './error-log.service';
 
 function initializeKeycloak(keycloak: KeycloakService) {
   return () =>
@@ -37,6 +39,7 @@ function initializeKeycloak(keycloak: KeycloakService) {
     MatButtonModule,
     MatToolbarModule,
     MatMenuModule,
+    MatDividerModule,
     MatGridListModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: !isDevMode(),
@@ -51,7 +54,9 @@ function initializeKeycloak(keycloak: KeycloakService) {
       useFactory: initializeKeycloak,
       multi: true,
       deps: [KeycloakService]
-    }
+    },
+    ErrorLogService,
+    { provide: ErrorHandler, useClass: ErrorLogService }
   ],
   bootstrap: [AppComponent]
 })

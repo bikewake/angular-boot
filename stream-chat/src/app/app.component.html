@@ -6,6 +6,8 @@
       <button mat-menu-item routerLink="/hike" aria-label="Hike" >Hike</button>
       <button mat-menu-item routerLink="/bike" aria-label="Bike" >Bike</button>
       <button mat-menu-item routerLink="/wake" aria-label="Wake" >Wake</button>
+      <mat-divider></mat-divider>
+      <button mat-menu-item routerLink="/error" aria-label="Error" >Error</button>
     </mat-menu>
     <span>Stream Chat</span>
     <span class="navigator-spacer"></span>
@@ -40,6 +42,16 @@
 
   </mat-grid-list>
     <router-outlet></router-outlet>
+  </ng-container>
+
+  <ng-container *ngIf="!isLoggedIn">
+    <mat-grid-list (click)="login()"  cols="1" >
+      <mat-grid-tile>
+        <button mat-icon-button  aria-label="Login">
+          <mat-icon>login</mat-icon>
+        </button>
+      </mat-grid-tile>
+    </mat-grid-list>
   </ng-container>
 
 
