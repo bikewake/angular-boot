@@ -12,12 +12,12 @@ export class ErrorData {
     }
 }
 
+export let globalErrorDataList:Array<ErrorData> = [];
+
 @Injectable({
   providedIn: 'root'
 })
 export class ErrorLogHandlerService extends ErrorHandler {
-
-  private static errorSubject:BehaviorSubject<ErrorData> = new BehaviorSubject<ErrorData>(new ErrorData(''));
 
   constructor() {
     super();
@@ -35,11 +35,6 @@ export class ErrorLogHandlerService extends ErrorHandler {
             //A client-side or network error occurred.
             errorData.status = "client";
       }
-      ErrorLogHandlerService.errorSubject.next(errorData);
+      globalErrorDataList.push(errorData);
   }
-
-  public errorData() : Observable<ErrorData> {
-      return ErrorLogHandlerService.errorSubject;
-  }
-
 }

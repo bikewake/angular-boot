@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { ErrorLogService } from '../error-log.service';
-import { ErrorData } from '../error-log-handler.service';
+import { ErrorData, globalErrorDataList } from '../error-log-handler.service';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -10,18 +9,15 @@ import { CommonModule } from '@angular/common';
   templateUrl: './error-log.component.html',
   styleUrl: './error-log.component.css'
 })
-export class ErrorLogComponent implements OnInit {
+export class ErrorLogComponent {
 
-  errorDataList:Array<ErrorData> = [];
+  errorDataList:Array<ErrorData>;
 
   @ViewChild('scrollFrame', { static: true }) scrollFrameRef!: ElementRef;
   messageSize: number = 0;
 
-  constructor(private errorLogService :ErrorLogService) {
-  }
-
-  public async ngOnInit() {
-          this.errorLogService.errorData().subscribe( (data:ErrorData) => this.errorDataList.push(data));
+  constructor() {
+      this.errorDataList = globalErrorDataList;
   }
 
   ngAfterViewChecked() {
