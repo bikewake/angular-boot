@@ -1,5 +1,6 @@
-import { Component, ViewChild, ElementRef } from '@angular/core';
-import { ErrorLogService, ErrorData } from '../error-log.service';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { ErrorLogService } from '../error-log.service';
+import { ErrorData } from '../error-log-handler.service';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -9,18 +10,35 @@ import { CommonModule } from '@angular/common';
   templateUrl: './error-log.component.html',
   styleUrl: './error-log.component.css'
 })
-export class ErrorLogComponent {
+export class ErrorLogComponent implements OnInit {
+
+  errorDataList:Array<ErrorData> = [];
 
   @ViewChild('scrollFrame', { static: true }) scrollFrameRef!: ElementRef;
   messageSize: number = 0;
 
-  constructor(private readonly errorLogService: ErrorLogService) {
+  constructor(private errorLogService :ErrorLogService) {
+
+          const errorData :ErrorData =  new ErrorData('JAdadafdsa');
+          this.errorDataList.push(errorData)
+          this.errorLogService.errorData().subscribe( (data:ErrorData) =>
+           console.log(data)
+   //       this.errorDataList.push(data)
+          );
+
+  }
+
+  public async ngOnInit() {
+          this.errorLogService.errorData().subscribe( (data:ErrorData) =>
+     //      console.log(data)
+          this.errorDataList.push(data)
+          );
   }
 
   ngAfterViewChecked() {
       // After the view is checked, scroll to the bottom
-      if(this.messageList().length > this.messageSize) {
-        this.messageSize = this.messageList().length;
+      if(this.errorDataList.length > this.messageSize) {
+        this.messageSize = this.errorDataList.length;
         this.scrollToBottom();
       }
   }
@@ -31,11 +49,5 @@ export class ErrorLogComponent {
           const scrollFrame = this.scrollFrameRef.nativeElement;
           scrollFrame.scrollTop = scrollFrame.scrollHeight;
         }
-  }
-
-  messageList(): Array<ErrorData> {
-    const errorList = this.errorLogService.errorList();
-    console.log('Error List:', errorList);
-    return errorList;
   }
 }

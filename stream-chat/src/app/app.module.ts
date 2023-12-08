@@ -14,6 +14,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { MatDividerModule } from '@angular/material/divider';
 import { ErrorLogService } from './error-log.service';
+import { ErrorLogHandlerService } from './error-log-handler.service';
 
 function initializeKeycloak(keycloak: KeycloakService) {
   return () =>
@@ -55,8 +56,7 @@ function initializeKeycloak(keycloak: KeycloakService) {
       multi: true,
       deps: [KeycloakService]
     },
-    ErrorLogService,
-    { provide: ErrorHandler, useClass: ErrorLogService }
+    { provide: ErrorHandler, useClass: ErrorLogHandlerService }
   ],
   bootstrap: [AppComponent]
 })

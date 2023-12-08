@@ -1,6 +1,6 @@
 <div class="messageArea" #scrollFrame >
   <ul>
-    <li class="message" *ngFor="let item of messageList()">
+    <li class="message" *ngFor="let item of errorDataList">
       <span class="sender">{{ item.status }}:</span>{{ item.message }}<small class="timestamp">{{ item.timeStamp | date:'medium'}}</small>
     </li>
   </ul>
