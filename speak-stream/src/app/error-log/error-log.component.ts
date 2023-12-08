@@ -18,21 +18,10 @@ export class ErrorLogComponent implements OnInit {
   messageSize: number = 0;
 
   constructor(private errorLogService :ErrorLogService) {
-
-          const errorData :ErrorData =  new ErrorData('JAdadafdsa');
-          this.errorDataList.push(errorData)
-          this.errorLogService.errorData().subscribe( (data:ErrorData) =>
-           console.log(data)
-   //       this.errorDataList.push(data)
-          );
-
   }
 
   public async ngOnInit() {
-          this.errorLogService.errorData().subscribe( (data:ErrorData) =>
-     //      console.log(data)
-          this.errorDataList.push(data)
-          );
+          this.errorLogService.errorData().subscribe( (data:ErrorData) => this.errorDataList.push(data));
   }
 
   ngAfterViewChecked() {

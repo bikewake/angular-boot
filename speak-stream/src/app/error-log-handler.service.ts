@@ -1,6 +1,6 @@
 import { Injectable, ErrorHandler } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Subject, Observable } from 'rxjs'
+import { BehaviorSubject, Observable } from 'rxjs'
 
 export class ErrorData {
     status: any;
@@ -17,12 +17,11 @@ export class ErrorData {
 })
 export class ErrorLogHandlerService extends ErrorHandler {
 
-  private errorSubject:Subject<ErrorData> = new Subject<ErrorData>();
+  private static errorSubject:BehaviorSubject<ErrorData> = new BehaviorSubject<ErrorData>(new ErrorData(''));
 
   constructor() {
     super();
     console.log("Calling Handler Constructor...");
-    this.errorData().subscribe( data => console.log('Handler: ', data) );
   }
 
   override handleError(error: any) {
@@ -36,12 +35,11 @@ export class ErrorLogHandlerService extends ErrorHandler {
             //A client-side or network error occurred.
             errorData.status = "client";
       }
-      this.errorSubject.next(errorData);
-
+      ErrorLogHandlerService.errorSubject.next(errorData);
   }
 
   public errorData() : Observable<ErrorData> {
-      return this.errorSubject.asObservable();
+      return ErrorLogHandlerService.errorSubject;
   }
 
 }
