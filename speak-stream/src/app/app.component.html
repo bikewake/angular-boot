@@ -22,5 +22,34 @@
   </button>
 </mat-toolbar>
 
+<ng-container *ngIf="userProfile">
+  <mat-grid-list cols="2" rowHeight="8:1">
+    <mat-grid-tile>
+      <table>
+        <tr>
+          <th scope="row"><span *ngIf="userProfile.firstName"> {{ userProfile.firstName }}</span>
+            <span *ngIf="userProfile.lastName"> {{ userProfile.lastName }}</span></th>
+        </tr>
+      </table>
+    </mat-grid-tile>
+    <mat-grid-tile>
+      <table>
+        <tr>
+          <th scope="row"><span *ngIf="userProfile.email"> {{ userProfile.email }}</span></th>
+        </tr>
+      </table>
+    </mat-grid-tile>
 
-<router-outlet></router-outlet>
+  </mat-grid-list>
+  <router-outlet></router-outlet>
+</ng-container>
+
+<ng-container *ngIf="!isLoggedIn">
+  <mat-grid-list (click)="login()"  cols="1" >
+    <mat-grid-tile>
+      <button mat-icon-button  aria-label="Login">
+        <mat-icon>login</mat-icon>
+      </button>
+    </mat-grid-tile>
+  </mat-grid-list>
+</ng-container>
