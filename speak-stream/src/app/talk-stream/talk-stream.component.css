@@ -1,0 +1,41 @@
+
+ul#chatMessages {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 40px;
+}
+
+li.message {
+    background-color: #ECEFF1;
+    padding: 10px;
+    margin: 5px;
+    border-radius: 5px;
+}
+
+span.sender {
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+small.timestamp {
+    font-size: 9px;
+    color: #888;
+    display: block;
+    text-align: right;
+}
+
+.box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.messageArea {
+  display: flex;
+  align-items: left;
+  overflow-y: auto;
+  height: 70vh;
+  justify-content: left;
+}
+
+
